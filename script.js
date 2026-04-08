@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPlatform === 'melon') {
             headerHtml = `
                 <div class="input-header">
-                    <span>리스트 ${index}</span>
+                    <span>리스트 ${index} (엔터로 구분)</span>
                     ${index > 1 ? `<button type="button" class="delete-btn" onclick="this.parentElement.parentElement.remove()">삭제</button>` : '<span></span>'}
                 </div>
             `;
