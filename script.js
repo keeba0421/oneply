@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const platformRadios = document.getElementsByName('platform');
 
     let currentPlatform = 'melon';
+    const savedInputs = {
+        melon: [''],
+        genie: '',
+        flo: ''
+    };
 
     const placeholders = {
         melon: "예시:\nhttps://www.melon.com/song/detail.htm?songId=32907450",
@@ -13,20 +18,35 @@ document.addEventListener('DOMContentLoaded', () => {
         flo: "예시:\nhttps://www.music-flo.com/detail/track/30911050/details"
     };
 
+    function saveCurrentInputs(platform) {
+        const textareas = Array.from(inputWrapper.querySelectorAll('.url-input'));
+
+        if (platform === 'melon') {
+            savedInputs.melon = textareas.map(textarea => textarea.value);
+            if (savedInputs.melon.length === 0) {
+                savedInputs.melon = [''];
+            }
+            return;
+        }
+
+        savedInputs[platform] = textareas[0]?.value || '';
+    }
+
     function renderInputs() {
         inputWrapper.innerHTML = '';
         outputWrapper.innerHTML = '';
-        
+
+        addInputBtn.style.display = currentPlatform === 'melon' ? 'block' : 'none';
+
         if (currentPlatform === 'melon') {
-            addInputBtn.style.display = 'block';
-            addBox();
+            const restoredValues = savedInputs.melon.length > 0 ? savedInputs.melon : [''];
+            restoredValues.forEach(value => addBox(value));
         } else {
-            addInputBtn.style.display = 'none';
-            addBox();
+            addBox(savedInputs[currentPlatform] || '');
         }
     }
 
-    function addBox() {
+    function addBox(initialValue = '') {
         const index = inputWrapper.children.length + 1;
         const div = document.createElement('div');
         div.className = 'input-block';
@@ -47,11 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ${headerHtml}
             <textarea class="url-input" placeholder="${placeholders[currentPlatform]}"></textarea>
         `;
+
+        const textarea = div.querySelector('.url-input');
+        textarea.value = initialValue;
+
         inputWrapper.appendChild(div);
     }
 
     platformRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
+            saveCurrentInputs(currentPlatform);
             currentPlatform = e.target.value;
             renderInputs();
         });
@@ -59,9 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addInputBtn.addEventListener('click', () => {
         addBox();
+        const newestTextarea = inputWrapper.querySelector('.input-block:last-child .url-input');
+        newestTextarea?.focus();
     });
 
     generateBtn.addEventListener('click', () => {
+        saveCurrentInputs(currentPlatform);
         outputWrapper.innerHTML = ''; 
         const textareas = document.querySelectorAll('.url-input');
         
@@ -70,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { ids, hasDuplicates } = extractIds(textarea.value, currentPlatform);
                 if (ids.length > 0) {
                     const finalUrl = `melonapp://play?menuid=0&ctype=1&cid=${ids.join(',')}`;
-                    let warningMsg = hasDuplicates ? `${index + 1}번 칸에 동일한 songid가 감지되었습니다. 멜론은 하나의 플레이리스트를 추가할 때 동일한 음원이 추가되지 않습니다.` : '';
+                    let warningMsg = hasDuplicates ? `${index + 1}번 칸에 동일한 songId가 감지되었습니다. 멜론은 하나의 플레이리스트를 추가할 때 동일한 음원이 추가되지 않습니다.` : '';
                     createOutputBlock(`멜론 리스트 ${index + 1} 결과`, finalUrl, warningMsg);
                 }
             });
@@ -125,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = 'output-block';
         
-        const uniqueId = 'out_' + Math.random().toString(36).substr(2, 9);
+        const uniqueId = 'out_' + Math.random().toString(36).slice(2, 11);
         const warningSpan = warningMsg ? `<span class="warning-text">${warningMsg}</span>` : '';
         
         div.innerHTML = `
