@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원클릭 스밍 주소 생성기</title>
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <div class="container">
+        <h1>스밍 주소 생성기</h1>
+        <p>음원 플랫폼의 웹 주소를 앱 전용 실행 링크로 변환합니다.</p>
+
+        <div class="form-group">
+            <label>플랫폼 선택</label>
+            <div class="radio-group">
+                <input type="radio" id="melon" name="platform" value="melon" checked>
+                <label for="melon"><img src="melon.png" alt="멜론" class="app-icon" onerror="this.style.display='none'"> 멜론</label>
+                
+                <input type="radio" id="genie" name="platform" value="genie">
+                <label for="genie"><img src="genie.png" alt="지니" class="app-icon" onerror="this.style.display='none'"> 지니</label>
+                
+                <input type="radio" id="flo" name="platform" value="flo">
+                <label for="flo"><img src="flo.png" alt="플로" class="app-icon" onerror="this.style.display='none'"> 플로</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="inputWrapper">
+            </div>
+
+        <button type="button" id="addInputBtn" class="btn-secondary">+ 멜론 입력 칸 추가</button>
+        <button type="button" id="generateBtn" class="btn-primary">스밍 주소 생성</button>
+
+        <div class="output-group" id="outputWrapper">
+            </div>
+    </div>
+    
+    <script src="script.js?v=2"></script>
+</body>
+</html>
