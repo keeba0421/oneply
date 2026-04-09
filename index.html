@@ -81,6 +81,7 @@
             border: 1px solid #dde3ea;
             border-radius: 12px;
             background: #fff;
+            cursor: pointer;
         }
 
         .radio-option:focus-within {
@@ -311,6 +312,7 @@
             const addInputBtn = document.getElementById('addInputBtn');
             const generateBtn = document.getElementById('generateBtn');
             const platformRadios = document.getElementsByName('platform');
+            const platformOptions = document.querySelectorAll('.radio-option');
 
             let currentPlatform = 'melon';
             const savedInputs = {
@@ -380,6 +382,19 @@
 
                 inputWrapper.appendChild(div);
             }
+
+            platformOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const clickedInput = e.target.closest('input[type="radio"]');
+                    if (clickedInput) return;
+
+                    const radio = option.querySelector('input[type="radio"]');
+                    if (!radio || radio.checked) return;
+
+                    radio.checked = true;
+                    radio.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            });
 
             platformRadios.forEach(radio => {
                 radio.addEventListener('change', (e) => {
