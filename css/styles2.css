@@ -89,6 +89,83 @@ h1 {
     animation: rise-in 680ms ease-out both;
 }
 
+.subpage-panel {
+    display: grid;
+    gap: 16px;
+}
+
+.subpage-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.subpage-nav.single {
+    grid-template-columns: 1fr;
+}
+
+.section-title {
+    font-size: 17px;
+    letter-spacing: -0.01em;
+}
+
+.example-figure {
+    border: 1px solid #dae6f1;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f5f9fc;
+}
+
+.example-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.image-fallback {
+    display: none;
+    color: #4f6478;
+    font-size: 14px;
+    padding: 14px;
+}
+
+.sample-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.sample-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: 11px;
+    border: 1px solid #ffd3b6;
+    background: #fff5ee;
+    color: #8a3f1d;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.sample-link:hover {
+    transform: translateY(-1px);
+    background: #ffe9db;
+}
+
+.coming-soon {
+    background: #f7fbff;
+    border: 1px dashed #c8dcec;
+    color: #30465c;
+    border-radius: 12px;
+    padding: 22px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -117,6 +194,34 @@ legend {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 6px 0 22px;
+}
+
+.quick-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 12px;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: #264055;
+    background: #eef5fb;
+    border: 1px solid #cfe0ef;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.quick-link-btn:hover {
+    transform: translateY(-1px);
+    background: #e4f0fa;
 }
 
 .radio-option {
@@ -321,6 +426,15 @@ input[type="radio"]:focus-visible {
 
     .radio-option {
         flex-basis: 100%;
+    }
+
+    .quick-links {
+        grid-template-columns: 1fr;
+    }
+
+    .subpage-nav,
+    .sample-grid {
+        grid-template-columns: 1fr;
     }
 
     h1 {
