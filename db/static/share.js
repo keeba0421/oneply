@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultArea = document.getElementById('resultArea');
     const generateBtn = document.getElementById('generateBtn');
     const listTitleInput = document.getElementById('listTitle');
+    const generateUrl = document.body.dataset.generateUrl || '/generate';
 
     const fieldMeta = {
         melon1: { label: '멜론1', placeholder: '멜론 웹링크 또는 melonapp:// 링크' },
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultArea.innerHTML = '';
 
         try {
-            const response = await fetch('/generate', {
+            const response = await fetch(generateUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ list_title: listTitle, links: payload }),
