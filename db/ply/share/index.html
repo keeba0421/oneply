@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>링크 공유 생성</title>
-    <link rel="stylesheet" href="{{ request.url_for('plycss', path='styles2.css') }}">
+    <link rel="stylesheet" href="../css/styles2.css">
 </head>
-<body data-generate-url="{{ request.url_for('generate_link') }}">
+<body data-generate-url="/generate">
     <div class="ambient" aria-hidden="true"></div>
 
     <main class="container">
@@ -23,14 +23,14 @@
             </div>
 
             <div class="toggle-grid" id="toggleGrid">
-                <button type="button" class="toggle-btn" data-field="melon1"><img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon"> 멜론1</button>
-                <button type="button" class="toggle-btn" data-field="melon2"><img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon"> 멜론2</button>
-                <button type="button" class="toggle-btn" data-field="melon3"><img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon"> 멜론3</button>
-                <button type="button" class="toggle-btn" data-field="melon4"><img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon"> 멜론4</button>
-                <button type="button" class="toggle-btn" data-field="melon_ios"><img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon"> 멜론 iOS</button>
-                <button type="button" class="toggle-btn" data-field="genie_android"><img src="{{ request.url_for('assets', path='genie.png') }}" alt="지니" class="app-icon"> 지니 안드로이드</button>
-                <button type="button" class="toggle-btn" data-field="genie_ios"><img src="{{ request.url_for('assets', path='genie.png') }}" alt="지니" class="app-icon"> 지니 iOS</button>
-                <button type="button" class="toggle-btn" data-field="flo"><img src="{{ request.url_for('assets', path='flo.png') }}" alt="플로" class="app-icon"> 플로</button>
+                <button type="button" class="toggle-btn" data-field="melon1"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론1</button>
+                <button type="button" class="toggle-btn" data-field="melon2"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론2</button>
+                <button type="button" class="toggle-btn" data-field="melon3"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론3</button>
+                <button type="button" class="toggle-btn" data-field="melon4"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론4</button>
+                <button type="button" class="toggle-btn" data-field="melon_ios"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론 iOS</button>
+                <button type="button" class="toggle-btn" data-field="genie_android"><img src="/assets/genie.png" alt="지니" class="app-icon"> 지니 안드로이드</button>
+                <button type="button" class="toggle-btn" data-field="genie_ios"><img src="/assets/genie.png" alt="지니" class="app-icon"> 지니 iOS</button>
+                <button type="button" class="toggle-btn" data-field="flo"><img src="/assets/flo.png" alt="플로" class="app-icon"> 플로</button>
             </div>
 
             <div id="inputArea" class="input-area"></div>
@@ -40,6 +40,6 @@
         </section>
     </main>
 
-    <script src="{{ request.url_for('static', path='share.js') }}" defer></script>
+    <script src="/static/share.js" defer></script>
 </body>
 </html>

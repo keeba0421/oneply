@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공유 링크 열기</title>
-    <link rel="stylesheet" href="{{ request.url_for('plycss', path='styles2.css') }}">
+    <link rel="stylesheet" href="../ply/css/styles2.css">
 </head>
 <body>
     <div class="ambient" aria-hidden="true"></div>
@@ -26,11 +26,11 @@
                     data-url="{{ item.url }}"
                 >
                     {% if item.platform == "melon" %}
-                    <img src="{{ request.url_for('assets', path='melon.png') }}" alt="멜론" class="app-icon">
+                    <img src="/assets/melon.png" alt="멜론" class="app-icon">
                     {% elif item.platform == "genie" %}
-                    <img src="{{ request.url_for('assets', path='genie.png') }}" alt="지니" class="app-icon">
+                    <img src="/assets/genie.png" alt="지니" class="app-icon">
                     {% else %}
-                    <img src="{{ request.url_for('assets', path='flo.png') }}" alt="플로" class="app-icon">
+                    <img src="/assets/flo.png" alt="플로" class="app-icon">
                     {% endif %}
                     {{ item.label }}
                 </button>

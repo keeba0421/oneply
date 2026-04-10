@@ -222,10 +222,10 @@ def normalize_list_title(title: str) -> str:
 
 @app.get("/")
 def root() -> RedirectResponse:
-    return RedirectResponse(url="/ply/share")
+    return RedirectResponse(url="/ply/share/")
 
 
-@app.get("/ply/share")
+@app.get("/ply/share/")
 def get_share_page(request: Request):
     return templates.TemplateResponse("ply/share/index.html", {"request": request})
 
