@@ -75,7 +75,7 @@ class LinkPayload:
 app = FastAPI(title="Cookiebam Deep-Link Shortener")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 app.mount("/assets", StaticFiles(directory=ROOT_DIR), name="assets")
-templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+templates = Jinja2Templates(directory=str(BASE_DIR))
 
 
 def db_conn() -> sqlite3.Connection:
@@ -226,7 +226,7 @@ def root() -> RedirectResponse:
 
 @app.get("/ply/share")
 def get_share_page(request: Request):
-    return templates.TemplateResponse("share.html", {"request": request})
+    return templates.TemplateResponse("ply/share/index.html", {"request": request})
 
 
 @app.post("/generate")
@@ -304,7 +304,7 @@ def get_bridge_page(code: str, request: Request):
     ]
 
     return templates.TemplateResponse(
-        "bridge.html",
+        "s/index.html",
         {
             "request": request,
             "code": code,
