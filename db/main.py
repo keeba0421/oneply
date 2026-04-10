@@ -75,6 +75,7 @@ class LinkPayload:
 app = FastAPI(title="Cookiebam Deep-Link Shortener")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 app.mount("/assets", StaticFiles(directory=ROOT_DIR), name="assets")
+app.mount("/ply/css", StaticFiles(directory=BASE_DIR / "ply" / "css"), name="plycss")
 templates = Jinja2Templates(directory=str(BASE_DIR))
 
 
