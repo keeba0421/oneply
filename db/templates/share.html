@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>링크 공유 생성</title>
+    <link rel="stylesheet" href="/static/share.css">
+</head>
+<body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <main class="container">
+        <header class="hero">
+            <span class="badge">Oneply Share</span>
+            <h1>공유 링크 생성</h1>
+            <p>원하는 앱 버튼을 먼저 누르고 링크를 입력한 뒤 공유 링크를 생성하세요.</p>
+        </header>
+
+        <section class="panel">
+            <div class="title-box">
+                <label for="listTitle" class="title-label">리스트 제목</label>
+                <input id="listTitle" class="title-input" type="text" maxlength="80" placeholder="예: 아이돌 타이틀곡 총공 리스트">
+            </div>
+
+            <div class="toggle-grid" id="toggleGrid">
+                <button type="button" class="toggle-btn" data-field="melon1"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론1</button>
+                <button type="button" class="toggle-btn" data-field="melon2"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론2</button>
+                <button type="button" class="toggle-btn" data-field="melon3"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론3</button>
+                <button type="button" class="toggle-btn" data-field="melon4"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론4</button>
+                <button type="button" class="toggle-btn" data-field="melon_ios"><img src="/assets/melon.png" alt="멜론" class="app-icon"> 멜론 iOS</button>
+                <button type="button" class="toggle-btn" data-field="genie_android"><img src="/assets/genie.png" alt="지니" class="app-icon"> 지니 안드로이드</button>
+                <button type="button" class="toggle-btn" data-field="genie_ios"><img src="/assets/genie.png" alt="지니" class="app-icon"> 지니 iOS</button>
+                <button type="button" class="toggle-btn" data-field="flo"><img src="/assets/flo.png" alt="플로" class="app-icon"> 플로</button>
+            </div>
+
+            <div id="inputArea" class="input-area"></div>
+
+            <button type="button" id="generateBtn" class="btn-primary">공유 링크 생성</button>
+            <div id="resultArea" class="result-area" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <script src="/static/share.js" defer></script>
+</body>
+</html>
