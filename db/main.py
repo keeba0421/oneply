@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import random
 import re
 import sqlite3
@@ -12,13 +13,14 @@ from urllib.parse import parse_qs, urlparse
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 BASE_DIR = Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
 DB_PATH = BASE_DIR / "short_links.db"
+PUBLIC_ROOT_ENV = Path(os.getenv("PUBLIC_ROOT", "/home/ubuntu/nginx/main"))
+PUBLIC_ROOT = PUBLIC_ROOT_ENV if PUBLIC_ROOT_ENV.exists() else BASE_DIR
 
 CODE_LENGTH = 6
 MAX_URL_BYTES = 300
@@ -64,9 +66,7 @@ class LinkPayload:
 
 
 app = FastAPI(title="Cookiebam Deep-Link Shortener")
-app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
-app.mount("/ply/css", StaticFiles(directory=BASE_DIR / "ply" / "css"), name="plycss")
-templates = Jinja2Templates(directory=str(BASE_DIR))
+templates = Jinja2Templates(directory=str(PUBLIC_ROOT))
 
 
 def db_conn() -> sqlite3.Connection:

@@ -13,12 +13,8 @@ server {
     add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
     add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'none'; frame-ancestors 'none'" always;
 
-    location /ply/share {
-        proxy_pass http://127.0.0.1:8000/ply/share;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+    location = / {
+        return 302 /ply/share/;
     }
 
     location /generate {
@@ -40,10 +36,5 @@ server {
 
     location /ply/ {
         try_files $uri $uri/ =404;
-    }
-
-    location /static/ {
-        proxy_pass http://127.0.0.1:8000/static/;
-        proxy_set_header Host $host;
     }
 }
