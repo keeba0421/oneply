@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
@@ -19,8 +19,10 @@ from pydantic import BaseModel
 BASE_DIR = Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
 DB_PATH = BASE_DIR / "short_links.db"
+ASSETS_DIR = BASE_DIR / "assets"
 
 CODE_LENGTH = 6
+MAX_URL_BYTES = 300
 
 APP_FIELDS = [
     "melon1",
@@ -32,16 +34,6 @@ APP_FIELDS = [
     "genie_ios",
     "flo",
 ]
-
-ALLOWED_SCHEMES = {
-    "melonapp",
-    "genieapp",
-    "cromegenie",
-    "ktolleh00167",
-    "flomusic",
-    "musicflo",
-}
-
 
 class GenerateRequest(BaseModel):
     list_title: str
@@ -74,7 +66,7 @@ class LinkPayload:
 
 app = FastAPI(title="Cookiebam Deep-Link Shortener")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
-app.mount("/assets", StaticFiles(directory=ROOT_DIR), name="assets")
+app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
 app.mount("/ply/css", StaticFiles(directory=BASE_DIR / "ply" / "css"), name="plycss")
 templates = Jinja2Templates(directory=str(BASE_DIR))
 
@@ -154,35 +146,38 @@ def generate_unique_code() -> str:
                 return code
 
 
-def is_allowed_scheme(url: str) -> bool:
-    scheme = urlparse(url).scheme.lower()
-    return scheme in ALLOWED_SCHEMES
-
-
 def parse_deeplink(value: str, field_name: str) -> Optional[str]:
     text = value.strip()
     if not text:
         return None
 
-    if text.startswith(("melonapp://", "cromegenie://", "ktolleh00167://", "flomusic://", "genieapp://", "musicflo://")):
-        if is_allowed_scheme(text):
-            return text
-        raise ValueError(f"허용되지 않는 스킴입니다: {field_name}")
-
     if field_name.startswith("melon"):
-        match = re.search(r"songId=(\d+)", text)
+        match = re.search(r"(?:songId|cid)=(\d+)", text)
         if match:
             return f"melonapp://play?menuid=0&ctype=1&cid={match.group(1)}"
 
     if field_name.startswith("genie"):
-        match = re.search(r"xgnm=(\d+)", text)
-        if match:
-            track_id = match.group(1)
+        parsed = urlparse(text)
+        parsed_query = parse_qs(parsed.query)
+        deeplink_target = parsed_query.get("landing_target", [None])[0]
+        if deeplink_target and deeplink_target.isdigit():
+            track_id = deeplink_target
+        else:
+            match = re.search(r"xgnm=(\d+)", text)
+            track_id = match.group(1) if match else None
+
+        if track_id:
             if field_name == "genie_android":
                 return f"cromegenie://scan/?landing_type=31&landing_target={track_id}"
             return f"ktolleh00167://landing/?landing_type=31&landing_target={track_id}"
 
     if field_name.startswith("flo"):
+        parsed = urlparse(text)
+        parsed_query = parse_qs(parsed.query)
+        deeplink_ids = parsed_query.get("ids", [None])[0]
+        if deeplink_ids and deeplink_ids.isdigit():
+            return f"flomusic://play/track?ids={deeplink_ids}"
+
         match = re.search(r"/track/(\d+)/details", text)
         if match:
             return f"flomusic://play/track?ids={match.group(1)}"
@@ -196,6 +191,9 @@ def normalize_payload(raw_links: Dict[str, str]) -> LinkPayload:
 
     for field in APP_FIELDS:
         source_value = raw_links.get(field, "")
+        if source_value and len(source_value.encode("utf-8")) > MAX_URL_BYTES:
+            errors[field] = f"입력 길이 초과(최대 {MAX_URL_BYTES}byte)"
+            continue
         try:
             normalized[field] = parse_deeplink(source_value, field)
         except ValueError as exc:
